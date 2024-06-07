@@ -5,3 +5,10 @@ dist
 
 .vscode/*
 !.vscode/extensions.json
+node_modules/@discoveryjs/json-ext/package.json
+node_modules/.package-lock.json
+node_modules/@discoveryjs/json-ext/LICENSE
+node_modules/@discoveryjs/json-ext/src/parse-chunked.js
+node_modules/@discoveryjs
+node_modules/@jridgewell
+node_modules/
