@@ -6,7 +6,8 @@ import {
 } from "./utils";
 import { Price, Country } from "./types";
 import { Permissions, LoyaltyUser } from "./enums";
-import { Review } from "./interfaces";
+import Review from "./interfaces";
+
 const propertyContainer = document.querySelector(".properties");
 const reviewContainer = document.querySelector(".reviews");
 const container = document.querySelector(".container");
@@ -14,24 +15,6 @@ const button = document.querySelector("button");
 const footer = document.querySelector(".footer");
 
 let isLoggedIn: boolean;
-
-enum Permissions {
-  ADMIN = "ADMIN",
-  READ_ONLY = "READ_ONLY",
-}
-
-enum LoyaltyUser {
-  GOLD_USER = "GOLD_USER",
-  SILVER_USER = "SILVER_USER",
-  BRONZE_USER = "BRONZE_USER",
-}
-
-interface Review {
-  name: string;
-  stars: number;
-  loyaltyUser: LoyaltyUser;
-  date: string;
-}
 
 // Reviews
 const reviews: Review[] = [
@@ -119,6 +102,19 @@ const properties: Property[] = [
     contact: [+34829374892553, "andyluger@aol.com"],
     isAvailable: true,
   },
+  {
+    image: "images/malaysian-hotel.jpeg",
+    title: "Malia Hotel",
+    price: 35,
+    location: {
+      firstLine: "Room 4",
+      city: "Malia",
+      code: 45334,
+      country: "Malaysia",
+    },
+    contact: [+60349822083, "lee34@gmail.com"],
+    isAvailable: false,
+  },
 ];
 
 // Functions
@@ -127,16 +123,19 @@ showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser);
 populateUser(you.isReturning, you.firstName);
 
 // Add the properties
-for (let i = 0; i < properties.length; i++) {
-  const card = document.createElement("div");
-  card.classList.add("card");
-  card.innerHTML = properties[i].title;
-  const image = document.createElement("img");
-  image.setAttribute("src", properties[i].image);
-  card.appendChild(image);
-  showDetails(you.permissions, card, properties[i].price);
-  //@ts-ignore
-  propertyContainer.appendChild(card);
+if (propertyContainer) {
+  for (let i = 0; i < properties.length; i++) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = properties[i].title;
+    const image = document.createElement("img");
+    image.setAttribute("src", properties[i].image);
+    card.appendChild(image);
+    showDetails(you.permissions, card, properties[i].price);
+    propertyContainer.appendChild(card);
+  }
+} else {
+  console.error("Property container not found.");
 }
 
 let count = 0;
@@ -148,24 +147,29 @@ function addReviews(array: Review[]): void {
       const card = document.createElement("div");
       card.classList.add("review-card");
       card.innerHTML = topTwo[i].stars + " stars from " + topTwo[i].name;
-      //@ts-ignore
-      reviewContainer.appendChild(card);
-    } //@ts-ignore
-    container.removeChild(button);
+      reviewContainer?.appendChild(card);
+    }
+    if (container && button) {
+      container.removeChild(button);
+    }
   }
 }
-//@ts-ignore
-button.addEventListener("click", () => addReviews(reviews));
+if (button) {
+  button.addEventListener("click", () => addReviews(reviews));
+}
 
 let currentLocation: [string, string, number] = ["London", "11.03", 17];
-//@ts-ignore
-footer.innerHTML =
-  currentLocation[0] +
-  " " +
-  currentLocation[1] +
-  " " +
-  currentLocation[2] +
-  "°";
+if (footer) {
+  footer.innerHTML =
+    currentLocation[0] +
+    " " +
+    currentLocation[1] +
+    " " +
+    currentLocation[2] +
+    "°";
+} else {
+  console.error("Footer not found.");
+}
 
 // Classes
 class MainProperty {
@@ -193,7 +197,10 @@ let yourMainProperty = new MainProperty(
 );
 
 const mainImageContainer = document.querySelector(".main-image");
-const image = document.createElement("img");
-image.setAttribute("src", yourMainProperty.src);
-//@ts-ignore
-mainImageContainer.appendChild(image);
+if (mainImageContainer) {
+  const image = document.createElement("img");
+  image.setAttribute("src", yourMainProperty.src);
+  mainImageContainer.appendChild(image);
+} else {
+  console.error("Main image container not found.");
+}
