@@ -1,7 +1,18 @@
 const reviewTotalDisplay = document.querySelector("#reviews");
 const returningUserDisplay = document.querySelector("#returning-user");
 const userNameDisplay = document.querySelector("#user");
-import { LoyaltyUser, Permissions } from "./enums";
+import { Review } from "./interfaces";
+
+enum Permissions {
+  ADMIN = "ADMIN",
+  READ_ONLY = "READ_ONLY",
+}
+
+enum LoyaltyUser {
+  GOLD_USER = "GOLD_USER",
+  SILVER_USER = "SILVER_USER",
+  BRONZE_USER = "BRONZE_USER",
+}
 
 export function showReviewTotal(
   value: number,
@@ -12,20 +23,19 @@ export function showReviewTotal(
   //@ts-ignore
   reviewTotalDisplay.innerHTML =
     value.toString() +
-    " Review" +
+    " review" +
     makeMultiple(value) +
-    "| last reviewed by " +
+    " | last reviewed by " +
     reviewer +
     " " +
     iconDisplay;
 }
 
 export function populateUser(isReturning: boolean, userName: string) {
-  if (isReturning) {
+  if (isReturning == true) {
     //@ts-ignore
     returningUserDisplay.innerHTML = "back";
-  }
-  //@ts-ignore
+  } //@ts-ignore
   userNameDisplay.innerHTML = userName;
 }
 
@@ -47,19 +57,7 @@ export function makeMultiple(value: number): string {
   } else return "";
 }
 
-export function getTopTwoReviews(
-  reviews: {
-    name: string;
-    stars: number;
-    loyaltyUser: LoyaltyUser;
-    date: string;
-  }[]
-): {
-  name: string;
-  stars: number;
-  loyaltyUser: LoyaltyUser;
-  date: string;
-}[] {
+export function getTopTwoReviews(reviews: Review[]): Review[] {
   const sortedReviews = reviews.sort((a, b) => b.stars - a.stars);
   return sortedReviews.slice(0, 2);
 }
