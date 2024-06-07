@@ -1,8 +1,3 @@
-// Object Types
-// In this scrim, based on what we just learnt, can you change userName to firstName, then
-// add an age and lastName to the 'you' Object, making sure to account for it in the Specialised
-// Object for defining its structure.
-
 const returningUserDisplay = document.querySelector("#returning-user");
 const userNameDisplay = document.querySelector("#user");
 const reviewTotalDisplay = document.querySelector("#reviews");
@@ -48,14 +43,14 @@ const you: {
   lastName: string;
   isReturning: boolean;
   age: number;
+  stayedAt: string[];
 } = {
   firstName: "Bobby",
   lastName: "Brown",
   isReturning: true,
   age: 35,
+  stayedAt: ["florida-home", "oman-flat", "tokyo-bungalow"],
 };
-
-console.log(you);
 
 function populateUser(isReturning: boolean, userName: string) {
   if (isReturning) {
