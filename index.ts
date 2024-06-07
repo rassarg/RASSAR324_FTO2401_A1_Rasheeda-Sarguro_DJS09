@@ -1,13 +1,35 @@
-import { showReviewTotal, populateUser } from "./utils";
-import { Permissions, LoyaltyUser } from "./enums";
+import {
+  showReviewTotal,
+  populateUser,
+  showDetails,
+  getTopTwoReviews,
+} from "./utils";
 import { Price, Country } from "./types";
 const propertyContainer = document.querySelector(".properties");
+const reviewContainer = document.querySelector(".reviews");
+const container = document.querySelector(".container");
+const button = document.querySelector("button");
 const footer = document.querySelector(".footer");
 
 let isLoggedIn: boolean;
 
+enum Permissions {
+  ADMIN = "ADMIN",
+  READ_ONLY = "READ_ONLY",
+}
+enum LoyaltyUser {
+  GOLD_USER = "GOLD_USER",
+  SILVER_USER = "SILVER_USER",
+  BRONZE_USER = "BRONZE_USER",
+}
+
 // Reviews
-const reviews: any[] = [
+const reviews: {
+  name: string;
+  stars: number;
+  loyaltyUser: LoyaltyUser;
+  date: string;
+}[] = [
   {
     name: "Sheia",
     stars: 5,
@@ -25,7 +47,6 @@ const reviews: any[] = [
     stars: 4,
     loyaltyUser: LoyaltyUser.SILVER_USER,
     date: "27-03-2021",
-    description: "Great hosts, location was a bit further than said.",
   },
 ];
 
@@ -47,7 +68,7 @@ const properties: {
     firstLine: string;
     city: string;
     code: number;
-    country: Country;
+    country: string;
   };
   contact: [number, string];
   isAvailable: boolean;
@@ -95,23 +116,8 @@ const properties: {
 
 // Functions
 showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser);
+
 populateUser(you.isReturning, you.firstName);
-
-let authorityStatus: any;
-
-isLoggedIn = false;
-
-function showDetails(
-  authorityStatus: boolean | Permissions,
-  element: HTMLDivElement,
-  price: number
-) {
-  if (authorityStatus) {
-    const priceDisplay = document.createElement("div");
-    priceDisplay.innerHTML = price.toString() + "/night";
-    element.appendChild(priceDisplay);
-  }
-}
 
 // Add the properties
 for (let i = 0; i < properties.length; i++) {
@@ -121,10 +127,36 @@ for (let i = 0; i < properties.length; i++) {
   const image = document.createElement("img");
   image.setAttribute("src", properties[i].image);
   card.appendChild(image);
+  showDetails(you.permissions, card, properties[i].price);
   //@ts-ignore
   propertyContainer.appendChild(card);
-  showDetails(you.permissions, card, properties[i].price);
 }
+
+//Broken code
+let count = 0;
+function addReviews(
+  array: {
+    name: string;
+    stars: number;
+    loyaltyUser: LoyaltyUser;
+    date: string;
+  }[]
+): void {
+  if (!count) {
+    count++;
+    const topTwo = getTopTwoReviews(array);
+    for (let i = 0; i < topTwo.length; i++) {
+      const card = document.createElement("div");
+      card.classList.add("review-card");
+      card.innerHTML = topTwo[i].stars + " stars from " + topTwo[i].name;
+      //@ts-ignore
+      reviewContainer.appendChild(card);
+    } //@ts-ignore
+    container.removeChild(button);
+  }
+}
+//@ts-ignore
+button.addEventListener("click", () => addReviews(reviews));
 
 let currentLocation: [string, string, number] = ["London", "11.03", 17];
 //@ts-ignore
