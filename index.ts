@@ -4,9 +4,9 @@ import {
   showDetails,
   getTopTwoReviews,
 } from "./utils";
-import { Price, Country } from "./types";
+
 import { Permissions, LoyaltyUser } from "./enums";
-import Review from "./interfaces";
+import { Review, Property } from "./interfaces";
 
 const propertyContainer = document.querySelector(".properties");
 const reviewContainer = document.querySelector(".reviews");
@@ -46,20 +46,6 @@ const you = {
   age: 35,
   stayedAt: ["florida-home", "oman-flat", "tokyo-bungalow"],
 };
-
-interface Property {
-  image: string;
-  title: string;
-  price: Price;
-  location: {
-    firstLine: string;
-    city: string;
-    code: number | string;
-    country: Country;
-  };
-  contact: [number, string];
-  isAvailable: boolean;
-}
 
 // Array of Properties
 const properties: Property[] = [
