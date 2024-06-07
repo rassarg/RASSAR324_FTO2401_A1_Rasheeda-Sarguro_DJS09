@@ -1,46 +1,41 @@
+import { showReviewTotal, populateUser } from "./utils";
+import { Permissions, LoyaltyUser } from "./enums";
 const propertyContainer = document.querySelector(".properties");
 const footer = document.querySelector(".footer");
 
-import { showReviewTotal, populateUser } from "./utils";
 let isOpen: boolean;
 
 // Reviews
 const reviews: {
   name: string;
   stars: number;
-  loyaltyUser: boolean;
+  loyaltyUser: LoyaltyUser;
   date: string;
 }[] = [
   {
     name: "Sheia",
     stars: 5,
-    loyaltyUser: true,
+    loyaltyUser: LoyaltyUser.GOLD_USER,
     date: "01-04-2021",
   },
   {
     name: "Andrzej",
     stars: 3,
-    loyaltyUser: false,
+    loyaltyUser: LoyaltyUser.BRONZE_USER,
     date: "28-03-2021",
   },
   {
     name: "Omar",
     stars: 4,
-    loyaltyUser: true,
+    loyaltyUser: LoyaltyUser.SILVER_USER,
     date: "27-03-2021",
   },
 ];
 
-// User
-const you: {
-  firstName: string;
-  lastName: string;
-  isReturning: boolean;
-  age: number;
-  stayedAt: string[];
-} = {
+const you = {
   firstName: "Bobby",
   lastName: "Brown",
+  permissions: Permissions.ADMIN,
   isReturning: true,
   age: 35,
   stayedAt: ["florida-home", "oman-flat", "tokyo-bungalow"],
@@ -118,13 +113,12 @@ for (let i = 0; i < properties.length; i++) {
   propertyContainer.appendChild(card);
 }
 
-let currentLocation: [string, string, number] = ["Cape Town", "5:12", 14];
+let currentLocation: [string, string, number] = ["London", "11.03", 17];
 //@ts-ignore
-footer.innerHTML = `${currentLocation[0]}: ${currentLocation[1]}pm, ${currentLocation[2]}° Celsius`;
-
-// currentLocation[0] +
-// " " +
-// currentLocation[1] +
-// ", " +
-// currentLocation[2] +
-// "° Celsius";
+footer.innerHTML =
+  currentLocation[0] +
+  " " +
+  currentLocation[1] +
+  " " +
+  currentLocation[2] +
+  "°";
