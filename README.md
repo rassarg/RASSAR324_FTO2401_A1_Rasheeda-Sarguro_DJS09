@@ -1,5 +1,8 @@
 # DJS09: Couch Surfing | Typescript Practice
 
+1. `npm install`
+2. Open index.html with Live Server
+
 ## Challenge Overview
 
 Are you ready to get stuck into some Typescript? For this challenge, you are required to code along with the lecturer from this lesson: Couch Surfing Website
